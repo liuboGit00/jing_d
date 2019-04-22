@@ -1,0 +1,145 @@
+
+//定位全屏
+.allcover {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+//定位bottom全屏
+.absbottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+//定位bottom全屏
+.fixbottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+//定位上下左右居中
+.ctp() {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+//flex上下左右剧中
+.fct() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+//定位上下居中
+.tb {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+//flex上下居中
+.ftb {
+    display: flex;
+    align-items: center;
+}
+
+//定位左右居中
+.lr {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+//flex左右居中
+.flr() {
+    display: flex;
+    justify-content: center;
+}
+
+//宽高
+.wh(@w:10px, @h:10px) {
+    width: @w;
+    height: @h;
+}
+
+//字体大小、行高、字体
+.ft(@s:15px, @l:22px) {
+    font-size: @s;
+    line-height: @l;
+    text-align: center;
+}
+
+//字体大小、行高、字体
+.ftd(@s:15px, @l:22px) {
+    font-size: @s;
+    line-height: @l;
+}
+
+//字体大小，颜色
+.sc(@s:15px, @c:#ccc) {
+    font-size: @s;
+    color: @c;
+}
+
+//flex 布局和 子元素 对其方式
+.fj(@t: space-between) {
+    display: flex;
+    justify-content: @t;
+}
+
+//多行超出省略号
+.ellipsis(@l: 2, @lh: 1.2) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: @l;
+    line-height: @lh;
+}
+
+.modalbg(@c: rgba(0, 0, 0, 0.7)) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: @c;
+}
+
+.flex(@d: column, @w: nowrap) {
+    display: flex;
+    flex-direction: @d;
+    flex-wrap: @w;
+}
+
+.clear() {
+    &:after {
+        content: '.';
+        clear: both;
+        display: block;
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
+}
+
+.bg-images(@url) {
+    background: url('~@/assets/img/pbb/@{url}') no-repeat center top;
+    background-size: 100%;
+}
+
+.bg-images-inline(@url) {
+    background: url('~@/assets/img/pbb/@{url}') no-repeat center top;
+    background-size: 100%;
+    display: inline-block;
+}
+
+// 定位
+.relative {
+    position: relative;
+}
