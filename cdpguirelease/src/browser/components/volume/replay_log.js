@@ -1,0 +1,89 @@
+import React, {Component, PropTypes} from 'react';
+import { Modal,Input,Form,DatePicker,Slider,notification } from 'antd';
+const createForm = Form.create;
+const FormItem = Form.Item
+
+class ReplayLog extends Component {
+
+    handleSubmit(e) {
+         // console.log(this.props.replaytimeNumber)
+        this.props.onOk(this.props.replaytimeNumber)
+    }
+
+    showTime(e) {
+        var newDate = new Date();
+        newDate.setTime(e * 1000);
+        var time = newDate.toLocaleString()
+        this.props.onChangeTime(e,time)
+    }
+    render() {
+        const { getFieldProps } = this.props.form;
+        const formItemLayout = {
+            labelCol: { span: 5 },
+            wrapperCol: { span: 15 },
+        };
+        const {snaplist,lasttime} = this.props
+        const marks = new Object();
+        // console.log(Number(lasttime.items.last_timestamp))
+        /*snaplist.forEach(function (element) {
+            var snaptime = Date.parse(new Date(element.createdate))
+            snaptime = snaptime / 1000
+            var newDate = new Date();
+            newDate.setTime(snaptime * 1000);
+            //console.log(newDate.toLocaleString())
+            marks[snaptime] = newDate.toLocaleString()
+        })*/
+        // console.log(snaplist[0].createdate)
+        // let firstTime = new Date(snaplist[0].createdate)
+        // console.log(firstTime)
+        // var min = Date.parse(new Date(firstTime.setHours(firstTime.getHours() + 8)))/1000
+
+        var min= Date.parse(new Date(snaplist[0].createdate+"+08:00")) / 1000
+        // console.log(min)
+        // var max = Date.parse(new Date(snaplist[snaplist.length - 1].createdate)) / 1000
+        var newDate = new Date();
+        console.log(newDate)
+        // console.log(lasttime.items.last_timestamp)
+        var max =Number(lasttime.items.last_timestamp)
+        // console.log(max)
+        newDate.setTime(min * 1000);
+        console.log(newDate)
+        
+        marks[min] = newDate.toLocaleString()
+        var newDate2 = new Date();
+        newDate2.setTime(max * 1000);
+        marks[max] = newDate2.toLocaleString()
+        // console.log(marks)
+        const {replaytime,replaytimeNumber} = this.props
+        // console.log(min,max)
+        return (
+            <div>
+                <Modal ref="modal"
+                    closable={false}
+                    visible={this.props.visible}
+                    title="回放日志" onOk={this.handleSubmit.bind(this) } onCancel={this.props.onCancel}>
+                    <Form layout='horizontal'>
+                        <FormItem label="回放时间"  {...formItemLayout}>
+                            <Slider {...getFieldProps('datetime', {onChange: this.showTime.bind(this)}) } marks={marks} min={min} max={max} step={1} value={replaytimeNumber}/>
+                        </FormItem>
+                        <FormItem label="已选择时间点" {...formItemLayout}>
+                            {replaytime==undefined?<div></div>:<div>{replaytime}</div>}
+                        </FormItem>
+                    </Form>
+                </Modal>
+            </div>
+        );
+    }
+}
+
+ReplayLog.propTypes = {
+
+};
+
+export default createForm({
+    mapPropsToFields (props) {
+        return {
+            datetime: {name: 'datetime'}
+        }
+    }
+})(ReplayLog);

@@ -1,0 +1,85 @@
+光纤环境
+安装kernel
+yum localinstall kernel-plus-3.10.0-229.el7.centos.centos.plus.x86_64.rpm kernel-plus-devel-3.10.0-229.el7.centos.centos.plus.x86_64.rpm kernel-plus-headers-3.10.0-229.el7.centos.centos.plus.x86_64.rpm
+
+
+设置qla2xxx 
+/usr/lib/modprobe.d/qla2xxx.conf
+and put:
+options qla2xxx qlini_mode=disabled
+in it.
+Then, run ‘dracut -f’ to rebuild your initrd, and reboot.
+
+安装zfs
+install zfs repo
+yum localinstall –nogpgcheck HTTP://archive.zfsonlinux.org/epel/zfs-release.el7.noarch.rpm
+
+yum install zfs
+
+
+安装salt-master
+
+
+sudo yum install
+https://repo.saltstack.com/yum/redhat/salt-repo-latest-1.el7.noarch.rpm 
+
+
+yum install salt-master
+
+yum install memcached
+
+yum install httpd
+
+yum install python-virtualenv
+
+安装drbd 9.0
+yum localinstall kmod-drbd-9.0.3_3.10.0_229.el7.centos.centos.plus.x86_64-1.el7.centos.x86_64.rpm
+yum localinstall drbd-utils-8.9.7-1.el7.centos.x86_64.rpm
+
+安装logdriver
+yum localinstall logdriver-1.0.1-1.el7.centos.x86_64.rpm
+安装opencdp
+yum localinstall opencdp-1.0.1-1.el7.centos.x86_64.rpm
+
+配置 /etc/httpd/conf.d/cdp.conf
+将127.0.0.1设为本机ip
+
+初始化opencdp
+
+source /home/opencdp/bin/activate
+cd /home/opencdp/opencdp
+添加并设置管理员密码
+./manager.py createsuperuser
+设置本机主机名
+./manager.py add-host
+添加并扫描硬盘初始化
+./manager.py post_install
+
+启动各服务
+关闭防火墙
+systemctl stop firewalld
+systemctl disable firewalld
+启动salt-master服务
+systemctl start salt-master.service
+启动opencdp的各项服务
+
+systemctl start opencdp-systemd.service 
+systemctl start opencdp-rest.service
+systemctl start opencdp-woker.service
+systemctl start opencdp-schedule.service
+
+启动http
+systemctl start httpd
+
+agent端安装
+
+linux
+yum install salt-minion
+yum install drbd
+修改minion配置
+将master ip配置为 cdp ip
+master: ip
+windows
+安装windows的salt-minion
+安装wdrbd
+将masterip设置为cdp ip
